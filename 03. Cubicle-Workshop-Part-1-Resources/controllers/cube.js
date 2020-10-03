@@ -1,0 +1,109 @@
+const Cube = require("../models/Cube");
+
+module.exports = {
+  async getCubes(req, res) {
+    const { search, from, to } = req.query;
+
+    try {
+      let cubes = await Cube.find().lean();
+      if (
+        search != null &&
+        search !== "" &&
+        from != null &&
+        from !== "" &&
+        to != null &&
+        to !== ""
+      ) {
+        cubes = cubes.filter(
+          (cube) =>
+            cube.name.toLowerCase().includes(search.toLowerCase()) &&
+            cube.difficultyLevel >= Number(from) &&
+            cube.difficultyLevel <= Number(to)
+        );
+      }
+      res.render("home/home", { cubes, isLoggedIn: req.user != null });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  createCubePage(req, res) {
+    res.render("cube/create", { isLoggedIn: req.user != null });
+  },
+  async createCube(req, res) {
+    const { name, description, imageUrl, difficultyLevel } = req.body;
+    const cube = new Cube({
+      name,
+      description,
+      imageUrl,
+      difficultyLevel: Number(difficultyLevel),
+      creatorId: req.user._id,
+    });
+
+    try {
+      await cube.save();
+      res.status(201).redirect("/");
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  async detailsPage(req, res) {
+    const id = req.params.id;
+
+    try {
+      const cube = await Cube.findById(id).populate("accessories").lean();
+      res.render("cube/details", {
+        ...cube,
+        isAuthorized:
+          req.user != null &&
+          JSON.stringify(req.user._id) === JSON.stringify(cube.creatorId),
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  async editPage(req, res) {
+    const id = req.params.id;
+
+    try {
+      const cube = await Cube.findById(id).lean();
+      res.render("cube/edit", { ...cube, isLoggedIn: req.user != null });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  async deletePage(req, res) {
+    const id = req.params.id;
+
+    try {
+      const cube = await Cube.findById(id).lean();
+      res.render("cube/delete", { ...cube, isLoggedIn: req.user != null });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  async editCube(req, res) {
+    const id = req.params.id;
+    const { name, description, imageUrl, difficultyLevel } = req.body;
+
+    try {
+      await Cube.updateOne(
+        { _id: id },
+        { $set: { name, description, imageUrl, difficultyLevel } }
+      );
+      res.status(200).redirect(`/details/${id}`);
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  async deleteCube(req, res) {
+    const id = req.params.id;
+
+    try {
+      // TODO: all references to the deleted cube should be deleted as well
+      await Cube.deleteOne({ _id: id });
+      res.status(200).redirect("/");
+    } catch (err) {
+      console.log(err);
+    }
+  },
+};
