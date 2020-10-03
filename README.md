@@ -17,8 +17,8 @@
 
 ## Теми
 
-- Intro to NODE.JS
-- NODE.JS Streams and Utilities
+- Intro to Node.js
+- Node.js Streams and Utilities
 - Express.js and Templating
 - NOSQL and MongoDB
 - Session and Authentication
