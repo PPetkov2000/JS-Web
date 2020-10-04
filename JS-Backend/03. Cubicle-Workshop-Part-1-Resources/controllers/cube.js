@@ -1,3 +1,4 @@
+const Accessory = require("../models/Accessory");
 const Cube = require("../models/Cube");
 
 module.exports = {
@@ -99,8 +100,11 @@ module.exports = {
     const id = req.params.id;
 
     try {
-      // TODO: all references to the deleted cube should be deleted as well
       await Cube.deleteOne({ _id: id });
+      await Accessory.updateMany(
+        { cubes: { $in: [String(id)] } },
+        { $pull: { cubes: String(id) } }
+      );
       res.status(200).redirect("/");
     } catch (err) {
       console.log(err);
