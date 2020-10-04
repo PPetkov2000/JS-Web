@@ -24,20 +24,36 @@ module.exports = {
     const { username, password, repeatPassword } = req.body;
 
     if (password !== repeatPassword) {
-      throw new Error("Passwords do not match!");
+      return res.render("user/register", {
+        error: "Passwords do not match!",
+      });
+    }
+
+    if (
+      !username ||
+      username.length < 5 ||
+      !password ||
+      password.length < 8 ||
+      !password.match(/^[A-Za-z0-9]+$/)
+    ) {
+      return res.render("user/register", {
+        error: "Username or password is not valid",
+      });
     }
 
     try {
       const dbUser = await User.findOne({ username }).lean();
 
       if (dbUser) {
-        throw new Error("User already exists!");
+        return res.render("user/register", {
+          error: "User already exists!",
+        });
       }
 
       const hash = await bcrypt.hash(password, 10);
       const user = new User({ username, password: hash });
       await user.save();
-      res.status(201).redirect("/");
+      res.status(201).redirect("/user/login");
     } catch (err) {
       console.log(err);
       res.status(500).redirect("/user/register");
@@ -50,13 +66,17 @@ module.exports = {
       const user = await User.findOne({ username }).lean();
 
       if (!user) {
-        throw new Error("There is no such user!");
+        return res.render("user/login", {
+          error: "Wrong username or password",
+        });
       }
 
       const result = await bcrypt.compare(password, user.password);
 
       if (!result) {
-        throw new Error("Auth failed!");
+        return res.render("user/login", {
+          error: "Wrong username or password",
+        });
       }
 
       const token = jwt.sign(
