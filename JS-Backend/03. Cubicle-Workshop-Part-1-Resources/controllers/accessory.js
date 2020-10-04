@@ -7,6 +7,21 @@ module.exports = {
   },
   async createAccessory(req, res) {
     const { name, description, imageUrl } = req.body;
+
+    if (
+      name.length < 5 ||
+      description.length < 20 ||
+      !imageUrl.match(/(http:\/\/|https:\/\/).+/)
+    ) {
+      return res.render("accessory/create", {
+        isLoggedIn: req.user != null,
+        error: "Invalid data!",
+        name,
+        description,
+        imageUrl,
+      });
+    }
+
     const accessory = new Accessory({ name, description, imageUrl });
 
     try {
@@ -54,7 +69,10 @@ module.exports = {
         { _id: id },
         { $push: { accessories: selectedAccessory._id } }
       );
-      await Accessory.updateOne({ _id: selectedAccessory._id }, { cubes: id });
+      await Accessory.updateOne(
+        { _id: selectedAccessory._id },
+        { $push: { cubes: id } }
+      );
       res.status(200).redirect(`/details/${id}`);
     } catch (err) {
       console.log(err);
