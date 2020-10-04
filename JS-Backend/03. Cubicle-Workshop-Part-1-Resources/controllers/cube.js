@@ -32,6 +32,21 @@ module.exports = {
   },
   async createCube(req, res) {
     const { name, description, imageUrl, difficultyLevel } = req.body;
+
+    if (
+      name.length < 5 ||
+      description.length < 20 ||
+      !imageUrl.match(/(http:\/\/|https:\/\/).+/)
+    ) {
+      return res.render("cube/create", {
+        isLoggedIn: req.user != null,
+        error: "Invalid data!",
+        name,
+        description,
+        imageUrl,
+      });
+    }
+
     const cube = new Cube({
       name,
       description,
