@@ -24,7 +24,7 @@ module.exports = {
     const { username, password, repeatPassword } = req.body;
 
     if (password !== repeatPassword) {
-      throw new error("Passwords do not match!");
+      throw new Error("Passwords do not match!");
     }
 
     try {
