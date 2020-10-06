@@ -31,7 +31,7 @@ module.exports = (app) => {
   app.get("/create", isAuth(), createCubePage);
   app.post("/create", isAuth(), createCube);
   app.get("/create/accessory", isAuth(), createAccessoryPage);
-  app.post("/create/accessory", createAccessory);
+  app.post("/create/accessory", isAuth(), createAccessory);
   app.get("/attach/accessory/:id", isAuth(), attachAccessoryPage);
   app.post("/attach/accessory/:id", attachAccessory);
   app.get("/details/:id", isAuth(true), detailsPage);
