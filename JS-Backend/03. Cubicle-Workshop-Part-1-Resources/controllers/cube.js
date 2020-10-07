@@ -82,6 +82,9 @@ module.exports = {
 
     try {
       const cube = await Cube.findById(id).lean();
+      if (String(req.user._id) !== String(cube.creatorId)) {
+        return res.status(401).redirect("/");
+      }
       res.render("cube/edit", { ...cube, isLoggedIn: req.user != null });
     } catch (err) {
       console.log(err);
@@ -92,6 +95,9 @@ module.exports = {
 
     try {
       const cube = await Cube.findById(id).lean();
+      if (String(req.user._id) !== String(cube.creatorId)) {
+        return res.status(401).redirect("/");
+      }
       res.render("cube/delete", { ...cube, isLoggedIn: req.user != null });
     } catch (err) {
       console.log(err);
