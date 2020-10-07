@@ -2,11 +2,13 @@ const express = require("express");
 const handlebars = require("express-handlebars");
 const cookieParser = require("cookie-parser");
 const methodOverride = require("method-override");
+const { select } = require("../helpers/hbs");
 
 module.exports = (app) => {
   app.engine(
     "hbs",
     handlebars({
+      helpers: { select },
       layoutsDir: "views",
       defaultLayout: "base-layout",
       partialsDir: "views/partials",
