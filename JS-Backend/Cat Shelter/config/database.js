@@ -1,11 +1,15 @@
 const mongoose = require("mongoose");
-const dbUrl = require("./config").development.dbUrl;
-const rdyMsg = "Database is setup and running!";
+const dbString = require("./config").dbUrl;
+const rdyString = "Database is setup and running!";
 
 module.exports = () => {
   return mongoose.connect(
-    dbUrl,
-    { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true },
-    console.log(rdyMsg)
+    dbString,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+    },
+    console.log(rdyString)
   );
 };
