@@ -1,10 +1,14 @@
-module.exports = {
+const env = process.env.NODE_ENV || "development";
+
+const config = {
   development: {
+    port: process.env.PORT || 5000,
     dbUrl:
-      "mongodb+srv://user:softuni-password@softuni.cpuao.mongodb.net/Cubes?retryWrites=true&w=majority",
-    secret: "my_secret",
+      "mongodb+srv://user:softuni-password@softuni.cpuao.mongodb.net/CatShelter?retryWrites=true&w=majority",
     cookie: "x-auth-token",
-    port: process.env.PORT || 3000,
+    secret: "my-secret",
   },
   production: {},
 };
+
+module.exports = config[env];
