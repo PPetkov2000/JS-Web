@@ -1,17 +1,22 @@
-<h1>Browser</h1>
-<form action="" method="GET">
-  <input type="text" class="search" name="search" placeholder="Search...">
-  <input type="number" name="from" class="difficulty" placeholder="Difficulty from...">
-  <span>-</span>
-  <input type="number" name="to" class="difficulty" placeholder="Difficulty to...">
-  <input type="submit" value="search">
-</form>
-{{#each cubes}}
-<div class="cube">
-  <img class="cube" src="{{ imageUrl }}">
-  <p class="name">{{ name }}</p>
-  <p><span>Difficulty level:</span> {{ difficultyLevel }}</p>
-  <a class="btn" href="/details/{{ _id }}">Details</a>
-  <a class="btn" href="/attach/accessory/{{ _id }}">Attach</a>
-</div>
-{{/each}}
+<main>
+  <section class="cats">
+    {{#if cats}}
+    <ul>
+      {{#each cats}}
+      <li>
+        <img src="/images/uploads/{{ image }}" alt="{{ name }}">
+        <h3>{{ name }}</h3>
+        <p><span>Breed: </span>{{ breed }}</p>
+        <p><span>Description: </span>{{ description }}</p>
+        <ul class="buttons">
+          <li class="btn edit"><a href="/cats/edit/{{ _id }}">Change Info</a></li>
+          <li class="btn delete"><a href="/cats/shelter/{{ _id }}">New Home</a></li>
+        </ul>
+      </li>
+      {{/each}}
+    </ul>
+    {{else}}
+    <h1>No Cats</h1>
+    {{/if}}
+  </section>
+</main>
