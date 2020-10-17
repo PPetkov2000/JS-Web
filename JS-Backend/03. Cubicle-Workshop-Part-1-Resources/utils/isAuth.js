@@ -17,6 +17,7 @@ module.exports = (justContinue = false) => {
 
       User.findById(decodedToken.userId).then((user) => {
         req.user = user;
+        res.locals.isLoggedIn = true;
         next();
       });
     });
