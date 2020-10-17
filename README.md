@@ -24,5 +24,6 @@
 - Session and Authentication
 - Validation and Error Handling
 - REST API
+- Angular and Typescript
 
 ## Сертификат
