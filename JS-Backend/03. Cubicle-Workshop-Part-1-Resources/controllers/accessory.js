@@ -3,7 +3,7 @@ const Cube = require("../models/Cube");
 
 module.exports = {
   createAccessoryPage(req, res) {
-    res.render("accessory/create", { isLoggedIn: req.user != null });
+    res.render("accessory/create");
   },
   async createAccessory(req, res) {
     const { name, description, imageUrl } = req.body;
@@ -14,7 +14,6 @@ module.exports = {
       !imageUrl.match(/(http:\/\/|https:\/\/).+/)
     ) {
       return res.render("accessory/create", {
-        isLoggedIn: req.user != null,
         error: "Invalid data!",
         name,
         description,
@@ -36,22 +35,14 @@ module.exports = {
 
     try {
       const cube = await Cube.findById(id).lean();
-      const accessories = await Accessory.find().lean();
-      const availableAccessories = accessories.reduce((acc, curr) => {
-        const accessoryId = String(curr._id);
-        const ids = cube.accessories.map((cubeAccessory) =>
-          String(cubeAccessory._id)
-        );
-        if (!ids.includes(accessoryId)) {
-          acc.push(curr);
-        }
-        return acc;
-      }, []);
+      const availableAccessories = await Accessory.find({
+        cubes: { $nin: id },
+      }).lean();
 
       res.render("accessory/attach", {
         ...cube,
         availableAccessories,
-        isLoggedIn: req.user != null,
+        hasAvailableAccessories: availableAccessories.length > 0,
       });
     } catch (err) {
       console.log(err);
