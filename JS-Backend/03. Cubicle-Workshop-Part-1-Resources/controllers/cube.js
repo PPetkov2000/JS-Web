@@ -22,13 +22,13 @@ module.exports = {
             cube.difficultyLevel <= Number(to)
         );
       }
-      res.render("home/home", { cubes, isLoggedIn: req.user != null });
+      res.render("home/home", { cubes });
     } catch (err) {
       console.log(err);
     }
   },
   createCubePage(req, res) {
-    res.render("cube/create", { isLoggedIn: req.user != null });
+    res.render("cube/create");
   },
   async createCube(req, res) {
     const { name, description, imageUrl, difficultyLevel } = req.body;
@@ -39,7 +39,6 @@ module.exports = {
       !imageUrl.match(/(http:\/\/|https:\/\/).+/)
     ) {
       return res.render("cube/create", {
-        isLoggedIn: req.user != null,
         error: "Invalid data!",
         name,
         description,
@@ -85,7 +84,7 @@ module.exports = {
       if (String(req.user._id) !== String(cube.creatorId)) {
         return res.status(401).redirect("/");
       }
-      res.render("cube/edit", { ...cube, isLoggedIn: req.user != null });
+      res.render("cube/edit", { ...cube });
     } catch (err) {
       console.log(err);
     }
@@ -98,7 +97,7 @@ module.exports = {
       if (String(req.user._id) !== String(cube.creatorId)) {
         return res.status(401).redirect("/");
       }
-      res.render("cube/delete", { ...cube, isLoggedIn: req.user != null });
+      res.render("cube/delete", { ...cube });
     } catch (err) {
       console.log(err);
     }
