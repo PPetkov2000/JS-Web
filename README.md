@@ -25,5 +25,6 @@
 - Validation and Error Handling
 - REST API
 - Angular and Typescript
+- State Management
 
 ## Сертификат
