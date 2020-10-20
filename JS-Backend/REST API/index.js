@@ -1,3 +1,4 @@
+require("dotenv").config();
 require("./config/database")();
 
 const express = require("express");
@@ -26,10 +27,27 @@ app.use((req, res, next) => {
 });
 
 app.use((error, req, res, next) => {
+  if (error.message.includes("Cast to ObjectId failed")) {
+    return res.status(404).json({ message: "Post not found!" });
+  }
+  if (error.message.includes("Post validation failed")) {
+    const errors = handleErrors(error);
+    return res.status(400).json({ errors });
+  }
+  // const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+
   const status = error.statusCode || 500;
   const message = error.message;
   res.status(status).json({ message });
   next();
 });
+
+function handleErrors(error) {
+  const errors = Object.values(error.errors).reduce((acc, { properties }) => {
+    acc[properties.path] = properties.message;
+    return acc;
+  }, {});
+  return errors;
+}
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
