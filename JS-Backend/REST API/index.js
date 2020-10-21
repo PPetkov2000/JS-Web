@@ -30,18 +30,4 @@ app.use((req, res, next) => {
 app.use(notFound);
 app.use(errorHandler);
 
-// app.use((error, req, res, next) => {
-//   if (error.message.includes("Cast to ObjectId failed")) {
-//     return res.status(404).json({ message: "Post not found!" });
-//   }
-//   if (error.message.includes("Post validation failed")) {
-//     const errors = errorHandler(error);
-//     return res.status(400).json({ errors });
-//   }
-//   console.log(req.originalUrl);
-//   console.log(error);
-//   const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
-//   res.status(statusCode).json({ message: error.message });
-// });
-
 app.listen(port, () => console.log(`Server started on port ${port}`));
