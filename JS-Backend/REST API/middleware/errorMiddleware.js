@@ -1,0 +1,22 @@
+const handleErrors = require("../utils/errorHandler");
+
+const notFound = (req, res, next) => {
+  const error = new Error(`Not found - ${req.originalUrl}`);
+  res.status(404);
+  next(error);
+};
+
+const errorHandler = (error, req, res, next) => {
+  if (error.message.includes("Cast to ObjectId failed")) {
+    return res.status(404).json({ message: "Post not found!" });
+  }
+  if (error.message.includes("Post validation failed")) {
+    const errors = handleErrors(error);
+    return res.status(400).json(errors);
+  }
+  console.log(error);
+  const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+  res.status(statusCode).json({ message: error.message });
+};
+
+module.exports = { notFound, errorHandler };
