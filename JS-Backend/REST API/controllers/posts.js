@@ -2,12 +2,12 @@ const Post = require("../models/Post");
 const User = require("../models/User");
 
 module.exports = {
-  async getPosts(req, res) {
+  async getPosts(req, res, next) {
     try {
       const posts = await Post.find();
-      res.status(200).json({ message: "Fetched posts successfully.", posts });
-    } catch {
-      res.status(500).json({ message: "Server error!" });
+      res.status(200).json(posts);
+    } catch (error) {
+      next(error);
     }
   },
   async getPost(req, res, next) {
@@ -17,16 +17,12 @@ module.exports = {
       const post = await Post.findById(postId);
 
       if (!post) {
-        const error = new Error("Post not found!");
-        error.statusCode = 404;
-        throw error;
+        res.status(404);
+        throw new Error("Post not found!");
       }
 
-      res.status(200).json({ message: "Fetched post succcessfully.", post });
+      res.status(200).json(post);
     } catch (error) {
-      if (!error.statusCode) {
-        error.statusCode = 500;
-      }
       next(error);
     }
   },
@@ -35,19 +31,13 @@ module.exports = {
 
     try {
       const post = new Post({ title, description, creatorId: req.user._id });
-      const savedPost = await post.save();
+      const createdPost = await post.save();
       await User.updateOne(
         { _id: req.user._id },
-        { $push: { posts: savedPost._id } }
+        { $push: { posts: createdPost._id } }
       );
-      res.status(201).json({
-        message: "Post created successfully.",
-        post: savedPost,
-      });
+      res.status(201).json(createdPost);
     } catch (error) {
-      if (!error.statusCode) {
-        error.statusCode = 500;
-      }
       next(error);
     }
   },
@@ -59,27 +49,20 @@ module.exports = {
       const post = await Post.findById(postId);
 
       if (!post) {
-        const error = new Error("Post not found!");
-        error.statusCode = 404;
-        throw error;
+        res.status(404);
+        throw new Error("Post not found!");
       }
 
       if (post.creatorId.toString() !== req.user._id) {
-        const error = new Error("Not authorized!");
-        error.statusCode = 403;
-        throw error;
+        res.status(403);
+        throw new Error("Not authorized!");
       }
 
       post.title = title;
       post.description = description;
       const updatedPost = await post.save();
-      res
-        .status(200)
-        .json({ message: "Post updated successfully.", post: updatedPost });
+      res.status(200).json(updatedPost);
     } catch (error) {
-      if (!error.statusCode) {
-        error.statusCode = 500;
-      }
       next(error);
     }
   },
@@ -90,18 +73,14 @@ module.exports = {
       const post = await Post.findById(postId);
 
       if (!post) {
-        const error = new Error("Post not found!");
-        error.statusCode = 404;
-        throw error;
+        res.status(404);
+        throw new Error("Post not found!");
       }
 
       await Post.deleteOne({ _id: postId });
       await User.updateOne({ _id: req.user._id }, { $pull: { posts: postId } });
       res.status(200).json({ message: "Post removed successfully." });
     } catch (error) {
-      if (!error.statusCode) {
-        error.statusCode = 500;
-      }
       next(error);
     }
   },
