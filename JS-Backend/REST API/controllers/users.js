@@ -85,16 +85,7 @@ module.exports = {
     }
   },
   logoutUser(req, res) {
-    // Not working on 100%
     req.user = null;
     res.clearCookie("auth-token");
-    // res
-    //   .cookie("auth-token", "", {
-    //     expiresIn: new Date(0),
-    //     domain: "localhost",
-    //     path: "/",
-    //   })
-    //   .status(200)
-    //   .json({ message: "Successfully logged out!", success: true });
   },
 };
