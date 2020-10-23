@@ -5,16 +5,14 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const app = express();
 const { port } = require("./config/config").development;
-const usersRoutes = require("./routes/users");
-const postsRoutes = require("./routes/posts");
+const api = require("./api");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 
-app.use("/users", usersRoutes);
-app.use("/posts", postsRoutes);
+api.connect(app);
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
