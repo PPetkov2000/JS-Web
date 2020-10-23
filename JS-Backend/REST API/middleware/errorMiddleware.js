@@ -8,7 +8,7 @@ const notFound = (req, res, next) => {
 
 const errorHandler = (error, req, res, next) => {
   if (error.message.includes("Cast to ObjectId failed")) {
-    return res.status(404).json({ message: "Post not found!" });
+    return res.status(404).json({ message: "Not found!" });
   }
   if (error.message.includes("Post validation failed")) {
     const errors = handleErrors(error);
