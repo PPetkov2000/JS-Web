@@ -98,6 +98,19 @@ module.exports = function (model) {
     };
   }
 
+  function getOneDocument(options = {}) {
+    return function (req, res, next) {
+      model
+        .findById(req.params.id)
+        .populate(options.populate || null)
+        .select(options.select || null)
+        .then((doc) => {
+          return res.json(doc);
+        })
+        .catch(next);
+    };
+  }
+
   return {
     getAll,
     getOne,
@@ -107,5 +120,6 @@ module.exports = function (model) {
     createOneWithRelations,
     deleteOneWithRelations,
     getAllDocuments,
+    getOneDocument,
   };
 };
