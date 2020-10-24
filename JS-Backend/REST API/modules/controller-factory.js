@@ -30,7 +30,7 @@ module.exports = function (model) {
   function updateOne(req, res, next) {
     const id = req.params.id;
     model
-      .updateOne({ _id: id }, req.body)
+      .updateOne({ _id: id, creatorId: req.user._id }, req.body)
       .then(() => {
         return res.status(200).json({ message: "Updated successfully!" });
       })
@@ -41,7 +41,7 @@ module.exports = function (model) {
     const id = req.params.id;
     model
       .findOneAndDelete({ _id: id })
-      .then((post) => {
+      .then(() => {
         return res.json({ message: "Deleted successfully!" });
       })
       .catch(next);
@@ -84,6 +84,20 @@ module.exports = function (model) {
     };
   }
 
+  function getAllDocuments(options = {}) {
+    return function (req, res, next) {
+      model
+        .find()
+        .populate(options.populate || null)
+        .limit(options.limit || null)
+        .sort(options.sort || null)
+        .then((doc) => {
+          return res.json(doc);
+        })
+        .catch(next);
+    };
+  }
+
   return {
     getAll,
     getOne,
@@ -92,5 +106,6 @@ module.exports = function (model) {
     deleteOne,
     createOneWithRelations,
     deleteOneWithRelations,
+    getAllDocuments,
   };
 };
