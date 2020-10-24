@@ -13,7 +13,7 @@ router
   .post(isAuth(), postController.createOneWithRelations(User, "posts"));
 router
   .route("/:id")
-  .get(postController.getOne)
+  .get(postController.getOneDocument())
   .put(isAuth(), postController.updateOne)
   .delete(isAuth(), postController.deleteOneWithRelations(User, "posts"));
 
