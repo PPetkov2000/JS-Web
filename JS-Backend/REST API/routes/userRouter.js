@@ -11,7 +11,7 @@ router.route("/register").post(validateUserData, userController.createOne);
 router.route("/login").post(authenticate);
 router
   .route("/:id")
-  .get(userController.getOne)
+  .get(userController.getOneDocument({ populate: "posts" }))
   .put(userController.updateOne)
   .delete(userController.deleteOne);
 
