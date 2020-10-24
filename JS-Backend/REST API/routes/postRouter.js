@@ -7,7 +7,7 @@ const controllerFactory = require("../modules/controller-factory");
 const postController = controllerFactory(Post);
 const router = Router();
 
-router.route("/").get(postController.getAll);
+router.route("/").get(postController.getAllDocuments());
 router
   .route("/create")
   .post(isAuth(), postController.createOneWithRelations(User, "posts"));
