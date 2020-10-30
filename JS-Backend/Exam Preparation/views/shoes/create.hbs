@@ -1,1 +1,23 @@
-create
+<h1>Create New Offer</h1>
+<p class="message">{{ message }}</p>
+<form action="/shoes/create" method="POST">
+  <div>
+    <input type="text" name="name" placeholder="Name..." value={{ oldInput.name }}>
+  </div>
+  <div>
+    <input type="text" name="price" placeholder="Price..." value={{ oldInput.price }}>
+  </div>
+  <div>
+    <input type="text" name="imageUrl" placeholder="Image url..." value={{ oldInput.imageUrl }}>
+  </div>
+  <div>
+    <textarea name="description"
+      placeholder="Give us some description about this offer...">{{ oldInput.description }}</textarea>
+  </div>
+  <div>
+    <input type="text" name="brand" placeholder="Brand..." value={{ oldInput.brand }}>
+  </div>
+  <div>
+    <button>Create</button>
+  </div>
+</form>
