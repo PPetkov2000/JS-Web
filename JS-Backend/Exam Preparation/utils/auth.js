@@ -1,14 +1,23 @@
-module.exports = (isAuthNeeded = true) => {
-  return function (req, res, next) {
-    const isAuthWhenNotNeeded = req.user && !isAuthNeeded;
-    const isNotAuthWhenNeeded = !req.user && isAuthNeeded;
+const { cookie } = require("../config");
+const { User } = require("../models");
+const { verifyToken } = require("./jwt");
 
-    if (isNotAuthWhenNeeded || isAuthWhenNotNeeded) {
-      const redirectPage = isNotAuthWhenNeeded ? "/user/login" : "/shoes/all";
-      res.redirect(redirectPage);
-      return;
-    }
+module.exports = async function (req, res, next) {
+  const token = req.cookies[cookie] || "";
 
+  if (!token) {
     next();
-  };
+    return;
+  }
+
+  try {
+    const decodedToken = await verifyToken(token);
+    const user = await User.findById(decodedToken.userId).select("-password");
+    req.user = user;
+    res.locals.isLoggedIn = !!user;
+    res.locals.fullName = user.fullName;
+    next();
+  } catch (error) {
+    next(error);
+  }
 };
