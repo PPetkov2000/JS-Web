@@ -1,10 +1,4 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const User = require("./User");
+const Shoes = require("./Shoes");
 
-const getUserModel = require('./User');
-const getShoeModel = require('./Shoe');
-
-module.exports = {
-    User: getUserModel(mongoose, bcrypt),
-    Shoe: getShoeModel(mongoose)
-};
+module.exports = { User, Shoes };
