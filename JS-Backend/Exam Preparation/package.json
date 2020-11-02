@@ -1,16 +1,25 @@
 {
-    "name": "name",
-    "description": "description",
-    "authors": "author",
-    "version": "1.0.0",
-    "main": "pathToMain",
-    "dependencies": {
-        "bcrypt": "^5.0.0",
-        "cookie-parser": "^1.4.5",
-        "express": "^4.17.1",
-        "express-handlebars": "^5.1.0",
-        "jsonwebtoken": "^8.5.1",
-        "mongoose": "^5.10.9",
-        "nodemon": "^2.0.6"
-    }
+  "name": "shoe-shelf",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "cookie-parser": "^1.4.5",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.6.2",
+    "mongoose": "^5.10.10"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "devStart": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
