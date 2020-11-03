@@ -25,7 +25,7 @@
 - Validation and Error Handling
 - REST API
 - Angular and Typescript
-- Components
+- Components, data binding, lifecycle
 - Directives, Template-Driven & Reactive Forms
 - Redux State Management, NgRx
 
