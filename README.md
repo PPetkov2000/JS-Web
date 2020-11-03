@@ -25,6 +25,7 @@
 - Validation and Error Handling
 - REST API
 - Angular and Typescript
+- Components
 - Redux State Management, NgRx
 
 ## Сертификат
