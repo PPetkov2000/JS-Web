@@ -27,6 +27,7 @@
 - Angular and Typescript
 - Components, data binding, lifecycle
 - Directives, Template-Driven & Reactive Forms
+- Pipes, JWT, Interceptors, Subjects
 - Redux State Management, NgRx
 
 ## Сертификат
