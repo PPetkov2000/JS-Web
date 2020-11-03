@@ -26,6 +26,7 @@
 - REST API
 - Angular and Typescript
 - Components
+- Directives, Template-Driven & Reactive Forms
 - Redux State Management, NgRx
 
 ## Сертификат
