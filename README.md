@@ -26,6 +26,7 @@
 - REST API
 - Angular and Typescript
 - Components, data binding, lifecycle
+- SOLID, RxJS, Observables, Services
 - Directives, Template-Driven & Reactive Forms
 - Pipes, JWT, Interceptors, Subjects
 - Redux State Management, NgRx
