@@ -1,7 +1,7 @@
 {
   "name": "shoe-shelf",
   "version": "1.0.0",
-  "description": "",
+  "description": "Exam Preparation: Shoe Shelf",
   "main": "index.js",
   "dependencies": {
     "bcrypt": "^5.0.0",
