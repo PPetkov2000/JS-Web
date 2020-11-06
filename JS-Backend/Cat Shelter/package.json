@@ -1,7 +1,7 @@
 {
-  "name": "cat-shelter-workshop",
+  "name": "cat-shelter",
   "version": "1.0.0",
-  "description": "",
+  "description": "Cat Shelter Workshop",
   "main": "index.js",
   "scripts": {
     "devStart": "nodemon index.js"
