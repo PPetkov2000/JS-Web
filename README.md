@@ -30,5 +30,3 @@
 - Directives, Template-Driven & Reactive Forms
 - Pipes, JWT, Interceptors, Subjects
 - Redux State Management, NgRx
-
-## Сертификат
