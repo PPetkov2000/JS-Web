@@ -1,6 +1,6 @@
 ## JS-Backend
 
-<img src="https://github.com/BoykoPetevBoev/JS-Back-End-May-2020/blob/master/README/JS%20Back-End%20-%20May%202020%20-%20Certificate.jpeg">
+<img src="https://github.com/PPetkov2000/JS-Web/blob/main/JS-Backend/JS%20Back-End%20-%20September%202020%20-%20Certificate.jpeg">
 
 ## Умения
 
