@@ -1,6 +1,6 @@
 ## JS Angular
 
-<img src="https://github.com/PPetkov2000/JS-Web/blob/main/JS-Frontend/Angular%20-%20November%202020%20-%20Certificate.jpeg" width="450" height="1000">
+<img src="https://github.com/PPetkov2000/JS-Web/blob/main/JS-Frontend/Angular%20-%20November%202020%20-%20Certificate.jpeg" width="450" height="1050">
 
 ## Умения
 
