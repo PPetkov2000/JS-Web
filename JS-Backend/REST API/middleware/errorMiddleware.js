@@ -10,11 +10,11 @@ const errorHandler = (error, req, res, next) => {
   if (error.message.includes("Cast to ObjectId failed")) {
     return res.status(404).json({ message: "Not found!" });
   }
-  if (error.message.includes("Post validation failed")) {
+  if (error.message.includes("validation failed")) {
     const errors = handleErrors(error);
-    return res.status(400).json(errors);
+    return res.status(400).json({ errors: Object.values(errors) });
   }
-  console.log(error);
+  console.log(error.stack);
   const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
   res.status(statusCode).json({ message: error.message });
 };
