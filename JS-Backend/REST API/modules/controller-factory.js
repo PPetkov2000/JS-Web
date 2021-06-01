@@ -2,48 +2,35 @@ module.exports = function (model) {
   function getAll(req, res, next) {
     model
       .find()
-      .then((docs) => {
-        return res.json(docs);
-      })
+      .then((docs) => res.json(docs))
       .catch(next);
   }
 
   function getOne(req, res, next) {
-    const id = req.params.id;
     model
-      .findById(id)
-      .then((doc) => {
-        return res.json(doc);
-      })
+      .findById(req.params.id)
+      .then((doc) => res.json(doc))
       .catch(next);
   }
 
   function createOne(req, res, next) {
     model
       .create(req.body)
-      .then((doc) => {
-        return res.status(201).json(doc);
-      })
+      .then((doc) => res.status(201).json(doc))
       .catch(next);
   }
 
   function updateOne(req, res, next) {
-    const id = req.params.id;
     model
-      .updateOne({ _id: id, creatorId: req.user._id }, req.body)
-      .then(() => {
-        return res.status(200).json({ message: "Updated successfully!" });
-      })
+      .updateOne({ _id: req.params.id, creatorId: req.user._id }, req.body)
+      .then(() => res.status(200).json({ message: "Updated successfully!" }))
       .catch(next);
   }
 
   function deleteOne(req, res, next) {
-    const id = req.params.id;
     model
-      .findOneAndDelete({ _id: id })
-      .then(() => {
-        return res.json({ message: "Deleted successfully!" });
-      })
+      .findOneAndDelete({ _id: req.params.id })
+      .then(() => res.json({ message: "Deleted successfully!" }))
       .catch(next);
   }
 
@@ -60,9 +47,7 @@ module.exports = function (model) {
             ),
           ]);
         })
-        .then(([createdDoc, _]) => {
-          return res.status(201).json(createdDoc);
-        })
+        .then(([createdDoc, _]) => res.status(201).json(createdDoc))
         .catch(next);
     };
   }
@@ -77,9 +62,7 @@ module.exports = function (model) {
             { $pull: { [relationDoc]: req.params.id } }
           );
         })
-        .then(() => {
-          return res.json({ message: "Deleted successfully!" });
-        })
+        .then(() => res.json({ message: "Deleted successfully!" }))
         .catch(next);
     };
   }
@@ -91,9 +74,7 @@ module.exports = function (model) {
         .populate(options.populate || null)
         .limit(options.limit || null)
         .sort(options.sort || null)
-        .then((doc) => {
-          return res.json(doc);
-        })
+        .then((doc) => res.json(doc))
         .catch(next);
     };
   }
@@ -104,9 +85,7 @@ module.exports = function (model) {
         .findById(req.params.id)
         .populate(options.populate || null)
         .select(options.select || null)
-        .then((doc) => {
-          return res.json(doc);
-        })
+        .then((doc) => res.json(doc))
         .catch(next);
     };
   }
