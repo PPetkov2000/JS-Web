@@ -1,15 +1,20 @@
 const jwt = require("jsonwebtoken");
-const { secret } = require("../config/config").development;
+const { secret, cookie } = require("../config/config").development;
 
 module.exports = () => {
   return async function (req, res, next) {
+    // const authCookie = req.cookies[cookie];
+    // if (!authCookie) {
+    //   return res.status(401).json({ message: "Not authenticated!" });
+    // }
+
     const authHeaders = req.get("Authorization");
 
     if (!authHeaders) {
       return res.status(401).json({ message: "Not authenticated!" });
     }
 
-    const token = req.get("Authorization").split(" ")[1];
+    const token = authHeaders.split(" ")[1];
     let decodedToken;
 
     try {
